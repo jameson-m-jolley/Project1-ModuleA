@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
     long double executio_time=(long double)seconds+((long double)nano_seconds/1000000000);
     printf("Execution Time with %d process(es): %Lf\n",num_processes,executio_time);
 
-
+    free(matrix);
     return 0;
 }
 
