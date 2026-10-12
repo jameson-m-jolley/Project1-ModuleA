@@ -44,15 +44,10 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i <= ROWS_COUNT-1; i++) {
         for (int j = 0; j < COLUMN_COUNT; j++) {
             matrix[i*COLUMN_COUNT+j] = i+j;
-            printf("%d\t",*(matrix+i*COLUMN_COUNT+j));
+           // printf("%d\t",*(matrix+i*COLUMN_COUNT+j));
         }
         printf("\n");
     }
-
-
-
-    
-
 
     int row_per_process=ROWS_COUNT/num_processes;
     int start_row=0;
@@ -60,29 +55,53 @@ int main(int argc, char *argv[]) {
 
     clock_gettime(CLOCK_REALTIME, &start);
 
-    /*
+     /*
     ToDo 3: Create num_processes count of children processes. (using fork)
     ToDo 4: Ask each child process to print "row_per_process" number of rows by calling function print_matrix_rows(). See header file.
     ToDo 5: Each child process MUST free the dynamically allocated memory for matrix from its own adress space after printing the designated rows.
     ToDo 6: All children processes MUST exit after freeing dyamically allocated memory of matrix.
     */
     
+    pid_t* pids = malloc(num_processes*sizeof(pid_t));
+    int i = 0;
+    for(i; i < num_processes; i++){
+        pids[i] = fork();
+        if(pids[i] == 0){
+            goto CHILD;
+        }
+    }
+    goto PARENT;
+
+    // we just jump out as to not invoke the fork call again 
+    // this also has the nice effect of storing 
+    // the number that the prosess is in i
+    CHILD:
+        printf("(should be 0) process number = %d\n",pids[i]);
+        // this is parent so we wait
+        // this is where all the work is done
+        
+        free(matrix);
+        free(pids);
+        return 0;
+    PARENT:
+        printf("(ROOT)process number = %d\n",pids[i]);
+
+   
 
     /*ToDO 7: Parent process must wait for all children processes to complete*/
-    
+    i = 0;
+    for(i; i < num_processes; i++){
+        printf("waiting on process number = %d\n",pids[i]);
+        waitpid(pids[i], NULL, 0);
+    }
 
     printf("all child processes completed their execution\n");
-
-
     clock_gettime(CLOCK_REALTIME, &end);
-
     // Calculate execution time
     seconds=end.tv_sec - start.tv_sec;
     nano_seconds=end.tv_nsec - start.tv_nsec;
     long double executio_time=(long double)seconds+((long double)nano_seconds/1000000000);
     printf("Execution Time with %d process(es): %Lf\n",num_processes,executio_time);
-
-    free(matrix);
     return 0;
 }
 
