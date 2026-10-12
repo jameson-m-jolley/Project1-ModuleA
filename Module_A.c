@@ -1,4 +1,5 @@
 #include "Module_A.h"
+#include <stdio.h>
 
 
 
@@ -25,6 +26,8 @@ int main(int argc, char *argv[]) {
      * Dynamically allocate memory of size ROWS_COUNT x COLUMN_COUNT x size_of(int).
      * run "man malloc" on ubuntu/linux terminal or see online help about malloc function
      */
+    size_t s = ROWS_COUNT * COLUMN_COUNT * sizeof(int);
+    int* matrix = malloc(s);
     
     
 
@@ -34,6 +37,19 @@ int main(int argc, char *argv[]) {
      * Value of each element is set to i+j, where i is index of row
      * and j is index of column.
     */
+
+    //we can index into it like this
+    //memory[i*COLUMN_COUNT+j%ROW_COUNT]
+    //it is not necessary to do any sort of preprocessing
+    for (int i = 0; i <= ROWS_COUNT-1; i++) {
+        for (int j = 0; j < COLUMN_COUNT; j++) {
+            matrix[i*COLUMN_COUNT+j] = i+j;
+            printf("%d\t",*(matrix+i*COLUMN_COUNT+j));
+        }
+        printf("\n");
+    }
+
+
 
     
 
