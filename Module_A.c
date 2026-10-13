@@ -62,7 +62,6 @@ int main(int argc, char *argv[]) {
     // this also has the nice effect of storing 
     // the number that the process is in i
     CHILD:
-
         if (DEBUG) {printf("(should be 0) process number = %d\n",pids[i]);}
         // this is parent so we wait
         // this is where all the work is done
