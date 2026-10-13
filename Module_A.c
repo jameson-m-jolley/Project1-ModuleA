@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 
-int DEBUG = false;
+int DEBUG = 0;
 
 
 int main(int argc, char *argv[]) {
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
     */
     pid_t* pids = malloc(num_processes*sizeof(pid_t));
     int i = 0;
-    for(i; i < num_processes; i++){
+        for(; i < num_processes; i++){
         pids[i] = fork();
         if(pids[i] == 0){
             goto CHILD;
@@ -79,12 +79,12 @@ int main(int argc, char *argv[]) {
 
         /*ToDO 7: Parent process must wait for all children processes to complete*/
         i = 0;
-        for(i; i < num_processes; i++){
+    for(; i < num_processes; i++){
             if (DEBUG) {printf("waiting on process number = %d\n",pids[i]);}
             waitpid(pids[i], NULL, 0);
         }
         if(remainder_rows > 0){
-            print_matrix_rows(matrix, ROWS_COUNT-1-remainder_rows, ROWS_COUNT-1);
+            print_matrix_rows(matrix, ROWS_COUNT-1-(remainder_rows-1), ROWS_COUNT-1);
         }
         printf("all child processes completed their execution\n");
         clock_gettime(CLOCK_REALTIME, &end);
