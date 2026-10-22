@@ -21,17 +21,13 @@ int main(int argc, char *argv[]) {
     }
 
 
-    /* ToDo1:
-     * Complete the body of the child_proc.c
-     * Hints:
-     *  1) First attach both memory regions
-     *  2) use sum_matrix() function to calllculate sume of
-     *  all elements from start_row to end_row
-     *  3) Ensure to detach both memory regions before leaving the main()
-     * Attach memory region 1
-    */
+    int *matrix = (int *) shmat(shmid_matrix, NULL, 0);
+    long *partial_sum = (long *) shmat(shmid_partial_sum, NULL, 0);
 
+    partial_sum[partial_sum_index] = sum_matrix(start_row_id, end_row_id, matrix);
 
+    shmdt(matrix);
+    shmdt(partial_sum);
 
     exit(0);
 }
