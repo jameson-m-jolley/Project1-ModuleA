@@ -1,0 +1,25 @@
+
+first off:
+make sure to check the Makefile for any typos or errors. 
+the target variable should be set to the name of the 
+executable you want to create, not the source file.
+this made me delete my progress because the makefile 
+removed the source file instead of the executable.
+
+secondly:
+make sure you know what your asking for. you ask for the output of 
+./skelecton_project2moduleA input.pgm output_image.pgm 128
+but failed to mention that char is signed by default in C. 
+this means that when you pass 128 as an argument, 
+it is being interpreted as a negative number (-128) 
+instead of a positive number (128). 
+this can cause unexpected behavior in your program. to fix this, 
+you can either change the type of the variable that stores the argument to unsigned char,
+or you can cast the argument to unsigned char when you pass it to the function.
+this was not clearly stated in the instructions its confusing and i am not sure if this is the intended behavior or not.
+
+
+
+
+
+
